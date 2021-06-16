@@ -81,4 +81,6 @@ void Reset()
     system("cls");
     headMessage("MAIN MENU");
     printf("\n\n\t\t\tSystem has been reseted\n");
+    system("pause");
+    system("cls");
 }
