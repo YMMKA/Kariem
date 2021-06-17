@@ -18,43 +18,40 @@ typedef struct listNode ListNode;
 typedef ListNode *ListNodePtr;
 
 
-char delete(ListNodePtr *sPtr, int id);
+int delete(ListNodePtr *sPtr, int id);
 void FreeData();
 void Reset();
 ListNodePtr startPtr = NULL; // initially there are no nodes
 
 // delete a list element
-char delete(ListNodePtr *sPtr, int id)
+int deletebook(ListNodePtr *sPtr, int id) {
 
-    if (id == (*sPtr)->l.id)
-    {
+    if (id == (*sPtr)->l.id) {
         ListNodePtr tempPtr = *sPtr; // hold onto node being removed
         *sPtr = (*sPtr)->nextPtr; // de-thread the node
         free(tempPtr); // free the de-threaded node
-        return id;
+        return 1;
     }
-    else
-    {
+    
+    else {
         ListNodePtr previousPtr = *sPtr;
         ListNodePtr currentPtr = (*sPtr)->nextPtr;
 
 // loop to find the correct location in the list
-        while (currentPtr != NULL && currentPtr->l.id != id)
-        {
-            previousPtr = currentPtr;  // walk to ...
-            currentPtr = currentPtr->nextPtr; // ... next node
+        while (currentPtr->l.id != id) {   
+            if (currentPtr->nextPtr == NULL) return 0;
+            
+            else {
+                previousPtr = currentPtr; // walk to ...
+                currentPtr = currentPtr->nextPtr; // ... next node
+            }
         }
 
 // delete node at currentPtr
-        if (currentPtr != NULL)
-        {
-            ListNodePtr tempPtr = currentPtr;
             previousPtr->nextPtr = currentPtr->nextPtr;
-            free(tempPtr);
-            return id;
-        }
+            free(currentPtr);
+            return 1;
     }
-    return '\0';
 }
 
 void FreeData()
@@ -79,8 +76,8 @@ void Reset()
     }
     while(startPtr != NULL);
     system("cls");
-    headMessage("MAIN MENU");
-    printf("\n\n\t\t\tSystem has been reseted\n");
+    headMessage("CLEAR THE BOOKS DATA");
+    printf("\n\n\t\t\tBooks data has been cleared.\n");
     system("pause");
     system("cls");
 }
